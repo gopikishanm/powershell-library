@@ -8,8 +8,8 @@ Function Search-Dir {
     )
     Process{
        #Get-ChildItem -Path $directoryPath -Filter $fileType -Recurse | % { Write-Host $_.FullName}
-       $printArray=[System.Collections.ArrayList]@()
-       Get-ChildItem -Path $directoryPath -Filter $fileType -Recurse | % { 
+       $printArray=@()
+       Get-ChildItem -Path $directoryPath -Filter $fileType -Recurse | ForEach-Object { 
        $item = New-Object -TypeName PSObject
        $item | Add-Member -Name FileName -Value $_.Name -MemberType NoteProperty
        $item | Add-Member -Name Directory -Value $_.Directory -MemberType NoteProperty
@@ -18,6 +18,6 @@ Function Search-Dir {
        #Write-Host $item
        $printArray+=$item
       }
-      Write-Host $printArray.ForEach({[PSCustomObject]$_}) | Format-List
+      $printArray | Format-Table
     }
 }
